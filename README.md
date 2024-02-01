@@ -31,3 +31,5 @@ A simple WeChat junk file cleaner
 ![1](./1.png)
 
 ## Acknowledgements
+
+[lich0821/WeChatDB](https://github.com/lich0821/WeChatDB)
