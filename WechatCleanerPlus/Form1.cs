@@ -351,7 +351,7 @@ namespace WechatCleanerPlus
         {
             // 显示帮助信息
             MessageBox.Show(@"请打开您的微信个人文件夹下的目录。
-例如，您的个人文件夹为wxid_12345678，请选择C:\Users\YOURNAME\Documents\WeChat Files\wxid_308ohe9bk1z021目录打开。",
+例如，您的个人文件夹为wxid_12345678，请选择C:\Users\YOURNAME\Documents\WeChat Files\wxid_12345678目录打开。",
                 "帮助信息");
         }
 
