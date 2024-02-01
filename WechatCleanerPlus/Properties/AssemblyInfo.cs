@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("WechatCleanerPlus")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A simple WeChat junk file cleaner")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("WechatCleanerPlus")]

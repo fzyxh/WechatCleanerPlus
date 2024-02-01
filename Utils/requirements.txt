@@ -1,0 +1,4 @@
+pycryptodome
+pymem
+pywin32
+argparse

@@ -35,6 +35,7 @@
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开文件夹ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关闭ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.高级ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.主页ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,6 +47,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.button2 = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.获取对象名称ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -75,6 +77,7 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.文件ToolStripMenuItem,
+            this.高级ToolStripMenuItem,
             this.关于ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -105,6 +108,14 @@
             this.关闭ToolStripMenuItem.Text = "关闭";
             this.关闭ToolStripMenuItem.Click += new System.EventHandler(this.关闭ToolStripMenuItem_Click);
             // 
+            // 高级ToolStripMenuItem
+            // 
+            this.高级ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.获取对象名称ToolStripMenuItem});
+            this.高级ToolStripMenuItem.Name = "高级ToolStripMenuItem";
+            this.高级ToolStripMenuItem.Size = new System.Drawing.Size(66, 29);
+            this.高级ToolStripMenuItem.Text = "高级";
+            // 
             // 关于ToolStripMenuItem
             // 
             this.关于ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -113,6 +124,7 @@
             this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
             this.关于ToolStripMenuItem.Size = new System.Drawing.Size(66, 29);
             this.关于ToolStripMenuItem.Text = "关于";
+            this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
             // 
             // 帮助ToolStripMenuItem
             // 
@@ -218,6 +230,13 @@
             this.imageList1.ImageSize = new System.Drawing.Size(256, 256);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // 获取对象名称ToolStripMenuItem
+            // 
+            this.获取对象名称ToolStripMenuItem.Name = "获取对象名称ToolStripMenuItem";
+            this.获取对象名称ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.获取对象名称ToolStripMenuItem.Text = "获取对象名称";
+            this.获取对象名称ToolStripMenuItem.Click += new System.EventHandler(this.获取对象名称ToolStripMenuItem_Click);
+            // 
             // WechatCleanerPlus
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -261,6 +280,8 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.ToolStripMenuItem 高级ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 获取对象名称ToolStripMenuItem;
     }
 }
 

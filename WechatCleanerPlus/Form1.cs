@@ -18,8 +18,9 @@ namespace WechatCleanerPlus
     {
         private ContextMenuStrip contextMenuStrip1;
 
-        private string currentPath;
+        private string currentPath, msgAttachPath;
         private List<DatImage> datImages;
+        private List<string[]> listRows = new List<string[]>();
 
         public WechatCleanerPlus()
         {
@@ -47,10 +48,10 @@ namespace WechatCleanerPlus
             listView1.View = View.Details;
             listView1.Columns.Clear();
             listView1.Columns.Add("对象名称", -2, HorizontalAlignment.Left);
-            listView1.Columns.Add("目录名称", -2, HorizontalAlignment.Center);
-            listView1.Columns.Add("总大小", -2, HorizontalAlignment.Right);
+            listView1.Columns.Add("目录名称", -2, HorizontalAlignment.Left);
+            listView1.Columns.Add("总大小", -2, HorizontalAlignment.Left);
             int totalWidth = listView1.ClientRectangle.Width; // 获取ListView的客户端宽度
-            int sizeColumnWidth = 100; // 将宽度平均分配给两列
+            int sizeColumnWidth = 120; // 将宽度平均分配给两列
 
             listView1.Columns[2].Width = sizeColumnWidth;
             listView1.Columns[0].Width = (totalWidth - sizeColumnWidth)/2;
@@ -143,18 +144,28 @@ namespace WechatCleanerPlus
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 currentPath = folderBrowserDialog1.SelectedPath;
-                LoadDirectoriesToListView(currentPath);
+                msgAttachPath = Path.Combine(currentPath, "FileStorage", "MsgAttach");
+
+                // 在打开文件夹后获取和更新 listRows
+                listRows.Clear();
+                DirectoryInfo di = new DirectoryInfo(msgAttachPath);
+                foreach (var dir in di.GetDirectories())
+                {
+                    long size = GetDirectorySize(dir.FullName);
+                    string[] row = { dir.Name, dir.Name, FormatSize(size) };
+                    listRows.Add(row); // 添加到 listRows
+                }
+
+                LoadDirectoriesToListView();
             }
         }
 
-        private void LoadDirectoriesToListView(string path)
+        private void LoadDirectoriesToListView()
         {
-            DirectoryInfo di = new DirectoryInfo(path);
             listView1.Items.Clear();
-            foreach (var dir in di.GetDirectories())
+
+            foreach (var row in listRows)
             {
-                long size = GetDirectorySize(dir.FullName);
-                string[] row = { dir.Name, dir.Name, FormatSize(size) };
                 var listViewItem = new ListViewItem(row);
                 listView1.Items.Add(listViewItem);
             }
@@ -191,13 +202,14 @@ namespace WechatCleanerPlus
             string searchText = searchTextBox.Text.ToLower();
             if (string.IsNullOrWhiteSpace(searchText))
             {
-                LoadDirectoriesToListView(currentPath); // currentPath是当前主目录的路径
+                LoadDirectoriesToListView(); // currentPath是当前主目录的路径
             }
             else
             {
-                var filteredItems = listView1.Items.Cast<ListViewItem>()
-                                    .Where(item => item.Text.ToLower().Contains(searchText))
-                                    .ToArray();
+                var filteredItems = listRows
+                            .Where(row => row[0].ToLower().Contains(searchText))
+                            .Select(row => new ListViewItem(row))
+                            .ToArray();
                 listView1.Items.Clear();
                 listView1.Items.AddRange(filteredItems);
             }
@@ -219,7 +231,7 @@ namespace WechatCleanerPlus
         {
             if (listView1.SelectedItems.Count != 1) return;
 
-            string selectedSubdirectory = Path.Combine(currentPath, listView1.SelectedItems[0].Text);
+            string selectedSubdirectory = Path.Combine(msgAttachPath, listView1.SelectedItems[0].SubItems[1].Text);
             Debug.WriteLine("select dir: " + selectedSubdirectory);
 
             if (datImages != null)
@@ -322,7 +334,7 @@ namespace WechatCleanerPlus
                 foreach (ListViewItem item in listView1.SelectedItems)
                 {
                     string subFolderPath = item.SubItems[1].Text; // 获取次级目录路径
-                    string fullFolderPath = Path.Combine(currentPath, subFolderPath); // 构建完整路径
+                    string fullFolderPath = Path.Combine(msgAttachPath, subFolderPath); // 构建完整路径
 
                     Directory.Delete(fullFolderPath, true); // 递归删除文件夹
                     listView1.Items.Remove(item);
@@ -338,8 +350,8 @@ namespace WechatCleanerPlus
         private void 帮助ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // 显示帮助信息
-            MessageBox.Show(@"请打开您的微信个人文件夹下的FileStorage/MsgAttach目录。
-例如，您的个人文件夹为wxid_12345678，请选择wxid_12345678/FileStorage/MsgAttach目录打开。",
+            MessageBox.Show(@"请打开您的微信个人文件夹下的目录。
+例如，您的个人文件夹为wxid_12345678，请选择C:\Users\YOURNAME\Documents\WeChat Files\wxid_308ohe9bk1z021目录打开。",
                 "帮助信息");
         }
 
@@ -347,7 +359,111 @@ namespace WechatCleanerPlus
         {
 
             // 在默认浏览器中打开URL
-            Process.Start("https://www.github.com");
+            Process.Start("https://github.com/fzyxh/WechatCleanerPlus");
+        }
+
+        private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void 获取对象名称ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // 检查是否存在微信进程
+            Process[] processes = Process.GetProcessesByName("WeChat");
+            if (processes.Length == 0)
+            {
+                MessageBox.Show("未找到微信进程，请确保微信已经打开并登录！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string weChatId = PromptForWeChatId();
+            string microMsgDbPath = Path.Combine(currentPath, "Msg", "MicroMsg.db");
+            string multiSearchChatMsgDbPath = Path.Combine(currentPath, "Msg", "MultiSearchChatMsg.db");
+
+            if (!string.IsNullOrEmpty(weChatId))
+            {
+                // 调用方法获取密钥并进行解密
+                string databaseKey = DatabaseDecryptor.GetWeChatDatabaseKey(weChatId);
+                if (databaseKey != null)
+                {
+
+                    DecryptDatabaseFile(microMsgDbPath, databaseKey);
+                    DecryptDatabaseFile(multiSearchChatMsgDbPath, databaseKey);
+
+                    MessageBox.Show($"解密成功，微信数据库密钥：{databaseKey}", "解密结果", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("解密失败，请确保微信已经登录！", "解密失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+            else return;
+
+            WeChatFolderNameResolver resolver = new WeChatFolderNameResolver();
+            resolver.ResolveFolderNames(ref listRows);
+            listView1.Items.Clear();
+
+            // 遍历 listRows 集合
+            foreach (var row in listRows)
+            {
+                // 创建一个新的 ListViewItem
+                ListViewItem item = new ListViewItem(row);
+
+                // 将 ListViewItem 添加到 ListView
+                listView1.Items.Add(item);
+            }
+        }
+
+        private void DecryptDatabaseFile(string filePath, string key)
+        {
+            try
+            {
+                Debug.WriteLine($"try to decrypt: {filePath}");
+                DatabaseDecryptor.DecryptDatabase(filePath, key);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"解密文件 {Path.GetFileName(filePath)} 失败：{ex.Message}", "解密失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private string PromptForWeChatId()
+        {
+            // 创建一个输入框窗口
+            Form prompt = new Form()
+            {
+                Width = 350,
+                Height = 200,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                Text = "输入微信号",
+                StartPosition = FormStartPosition.CenterScreen
+            };
+
+            // 创建文本框
+            System.Windows.Forms.TextBox textBox = new System.Windows.Forms.TextBox() { Left = 60, Top = 30, Width = 200 };
+            System.Windows.Forms.Button confirmation = new System.Windows.Forms.Button() { Text = "确认", Left = 110, Top = 80, Width = 100, Height = 40 };
+
+            // 确认按钮点击事件
+            confirmation.Click += (sender, e) => { prompt.Close(); };
+
+            // 将文本框和按钮添加到窗口
+            prompt.Controls.Add(textBox);
+            prompt.Controls.Add(confirmation);
+
+            // 显示窗口并等待用户输入
+            prompt.ShowDialog();
+
+            // 返回用户输入的文本
+            return textBox.Text;
+        }
+
+        private int GetIdFromItem(ListViewItem item)
+        {
+            // 从 ListViewItem 中获取 ID 的代码
+            // 这取决于您如何存储 ID 以及如何将其与 ListViewItem 关联
+            return 0;
         }
     }
 }
