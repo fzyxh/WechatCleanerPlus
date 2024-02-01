@@ -30,6 +30,10 @@ A simple WeChat junk file cleaner
 
 ![1](./1.png)
 
+## Note
+
+- [WeChatID must be modified at least once](https://github.com/lich0821/WeChatDB/issues/7)
+
 ## Acknowledgements
 
 [lich0821/WeChatDB](https://github.com/lich0821/WeChatDB)
