@@ -231,6 +231,27 @@ namespace WechatCleanerPlus
         {
             if (listView1.SelectedItems.Count != 1) return;
 
+            // Do nothing when click only once.
+            /*string selectedSubdirectory = Path.Combine(msgAttachPath, listView1.SelectedItems[0].SubItems[1].Text);
+            Debug.WriteLine("select dir: " + selectedSubdirectory);
+
+            if (datImages != null)
+            {
+                foreach (var img in datImages)
+                {
+                    img.Image.Dispose();
+                }
+            }
+
+            datImages = ImageProcessor.LoadImagesFromSubdirectory(selectedSubdirectory);
+            Debug.WriteLine("Image process complete!");
+
+            DisplayImagesInListView();*/
+        }
+
+        private void listView1_MouseDoubleClick(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count != 1) return;
             string selectedSubdirectory = Path.Combine(msgAttachPath, listView1.SelectedItems[0].SubItems[1].Text);
             Debug.WriteLine("select dir: " + selectedSubdirectory);
 
@@ -457,6 +478,11 @@ namespace WechatCleanerPlus
 
             // 返回用户输入的文本
             return textBox.Text;
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
 
         private int GetIdFromItem(ListViewItem item)

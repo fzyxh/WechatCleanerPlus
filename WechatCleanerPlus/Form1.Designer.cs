@@ -36,6 +36,7 @@
             this.打开文件夹ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关闭ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.高级ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.获取对象名称ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.主页ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +48,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.button2 = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.获取对象名称ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -70,6 +70,7 @@
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             this.listView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView1_KeyDown);
             this.listView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseClick);
+            this.listView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDoubleClick);
             // 
             // menuStrip1
             // 
@@ -84,6 +85,7 @@
             this.menuStrip1.Size = new System.Drawing.Size(1478, 33);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // 文件ToolStripMenuItem
             // 
@@ -97,14 +99,14 @@
             // 打开文件夹ToolStripMenuItem
             // 
             this.打开文件夹ToolStripMenuItem.Name = "打开文件夹ToolStripMenuItem";
-            this.打开文件夹ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.打开文件夹ToolStripMenuItem.Size = new System.Drawing.Size(209, 34);
             this.打开文件夹ToolStripMenuItem.Text = "打开文件夹";
             this.打开文件夹ToolStripMenuItem.Click += new System.EventHandler(this.打开文件夹ToolStripMenuItem_Click);
             // 
             // 关闭ToolStripMenuItem
             // 
             this.关闭ToolStripMenuItem.Name = "关闭ToolStripMenuItem";
-            this.关闭ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.关闭ToolStripMenuItem.Size = new System.Drawing.Size(209, 34);
             this.关闭ToolStripMenuItem.Text = "关闭";
             this.关闭ToolStripMenuItem.Click += new System.EventHandler(this.关闭ToolStripMenuItem_Click);
             // 
@@ -115,6 +117,13 @@
             this.高级ToolStripMenuItem.Name = "高级ToolStripMenuItem";
             this.高级ToolStripMenuItem.Size = new System.Drawing.Size(66, 29);
             this.高级ToolStripMenuItem.Text = "高级";
+            // 
+            // 获取对象名称ToolStripMenuItem
+            // 
+            this.获取对象名称ToolStripMenuItem.Name = "获取对象名称ToolStripMenuItem";
+            this.获取对象名称ToolStripMenuItem.Size = new System.Drawing.Size(228, 34);
+            this.获取对象名称ToolStripMenuItem.Text = "获取对象名称";
+            this.获取对象名称ToolStripMenuItem.Click += new System.EventHandler(this.获取对象名称ToolStripMenuItem_Click);
             // 
             // 关于ToolStripMenuItem
             // 
@@ -129,14 +138,14 @@
             // 帮助ToolStripMenuItem
             // 
             this.帮助ToolStripMenuItem.Name = "帮助ToolStripMenuItem";
-            this.帮助ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.帮助ToolStripMenuItem.Size = new System.Drawing.Size(152, 34);
             this.帮助ToolStripMenuItem.Text = "帮助";
             this.帮助ToolStripMenuItem.Click += new System.EventHandler(this.帮助ToolStripMenuItem_Click);
             // 
             // 主页ToolStripMenuItem
             // 
             this.主页ToolStripMenuItem.Name = "主页ToolStripMenuItem";
-            this.主页ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.主页ToolStripMenuItem.Size = new System.Drawing.Size(152, 34);
             this.主页ToolStripMenuItem.Text = "主页";
             this.主页ToolStripMenuItem.Click += new System.EventHandler(this.主页ToolStripMenuItem_Click);
             // 
@@ -229,13 +238,6 @@
             this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
             this.imageList1.ImageSize = new System.Drawing.Size(256, 256);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // 获取对象名称ToolStripMenuItem
-            // 
-            this.获取对象名称ToolStripMenuItem.Name = "获取对象名称ToolStripMenuItem";
-            this.获取对象名称ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.获取对象名称ToolStripMenuItem.Text = "获取对象名称";
-            this.获取对象名称ToolStripMenuItem.Click += new System.EventHandler(this.获取对象名称ToolStripMenuItem_Click);
             // 
             // WechatCleanerPlus
             // 
