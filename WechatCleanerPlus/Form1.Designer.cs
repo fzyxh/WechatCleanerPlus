@@ -63,7 +63,7 @@
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(13, 47);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(384, 752);
+            this.listView1.Size = new System.Drawing.Size(384, 749);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -82,7 +82,7 @@
             this.关于ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1478, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(1478, 36);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
@@ -93,7 +93,7 @@
             this.打开文件夹ToolStripMenuItem,
             this.关闭ToolStripMenuItem});
             this.文件ToolStripMenuItem.Name = "文件ToolStripMenuItem";
-            this.文件ToolStripMenuItem.Size = new System.Drawing.Size(66, 29);
+            this.文件ToolStripMenuItem.Size = new System.Drawing.Size(66, 32);
             this.文件ToolStripMenuItem.Text = "文件";
             // 
             // 打开文件夹ToolStripMenuItem
@@ -115,7 +115,7 @@
             this.高级ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.获取对象名称ToolStripMenuItem});
             this.高级ToolStripMenuItem.Name = "高级ToolStripMenuItem";
-            this.高级ToolStripMenuItem.Size = new System.Drawing.Size(66, 29);
+            this.高级ToolStripMenuItem.Size = new System.Drawing.Size(66, 32);
             this.高级ToolStripMenuItem.Text = "高级";
             // 
             // 获取对象名称ToolStripMenuItem
@@ -131,7 +131,7 @@
             this.帮助ToolStripMenuItem,
             this.主页ToolStripMenuItem});
             this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
-            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(66, 29);
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(66, 32);
             this.关于ToolStripMenuItem.Text = "关于";
             this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
             // 
@@ -193,7 +193,7 @@
             this.listView2.HideSelection = false;
             this.listView2.Location = new System.Drawing.Point(3, 47);
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(1059, 752);
+            this.listView2.Size = new System.Drawing.Size(1059, 749);
             this.listView2.TabIndex = 6;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.SelectedIndexChanged += new System.EventHandler(this.listView2_SelectedIndexChanged);
@@ -201,7 +201,7 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 33);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 36);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -218,7 +218,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.button1);
             this.splitContainer1.Panel2.Controls.Add(this.checkBox1);
             this.splitContainer1.Panel2MinSize = 200;
-            this.splitContainer1.Size = new System.Drawing.Size(1478, 811);
+            this.splitContainer1.Size = new System.Drawing.Size(1478, 808);
             this.splitContainer1.SplitterDistance = 400;
             this.splitContainer1.TabIndex = 7;
             // 
@@ -236,7 +236,7 @@
             // imageList1
             // 
             this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.imageList1.ImageSize = new System.Drawing.Size(256, 256);
+            this.imageList1.ImageSize = new System.Drawing.Size(128, 128);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // WechatCleanerPlus

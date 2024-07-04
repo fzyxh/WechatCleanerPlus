@@ -256,13 +256,51 @@ namespace WechatCleanerPlus
             DisplayImagesInListView();*/
         }
 
-        private void listView1_MouseDoubleClick(object sender, EventArgs e)
+        private async void listView1_MouseDoubleClick(object sender, EventArgs e)
         {
             if (listView1.SelectedItems.Count != 1) return;
             string selectedSubdirectory = Path.Combine(msgAttachPath, listView1.SelectedItems[0].SubItems[1].Text);
             Debug.WriteLine("select dir: " + selectedSubdirectory);
 
-            if (datImages != null)
+            using (LoadingForm loadingForm = new LoadingForm())
+            {
+                loadingForm.Show();
+                try
+                {
+                    await Task.Run(() =>
+                    {
+                        if (datImages != null)
+                        {
+                            foreach (var img in datImages)
+                            {
+                                img.Image.Dispose();
+                            }
+                        }
+
+                        // 加载图像并检查取消请求
+                        datImages = ImageProcessor.LoadImagesFromSubdirectory(selectedSubdirectory, loadingForm.CancellationToken);
+                        Debug.WriteLine("Image process complete!");
+                    }, loadingForm.CancellationToken);
+
+                    if (loadingForm.CancellationToken.IsCancellationRequested)
+                    {
+                        // 用户取消加载
+                        return;
+                    }
+
+                    DisplayImagesInListView();
+                }
+                catch (OperationCanceledException)
+                {
+                    // 用户取消加载
+                }
+                finally
+                {
+                    loadingForm.Close();
+                }
+            }
+
+            /*if (datImages != null)
             {
                 foreach (var img in datImages)
                 {
@@ -273,7 +311,7 @@ namespace WechatCleanerPlus
             datImages = ImageProcessor.LoadImagesFromSubdirectory(selectedSubdirectory);
             Debug.WriteLine("Image process complete!");
 
-            DisplayImagesInListView();
+            DisplayImagesInListView();*/
         }
 
         private void DisplayImagesInListView()
