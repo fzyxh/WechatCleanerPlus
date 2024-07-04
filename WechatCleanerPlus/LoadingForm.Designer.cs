@@ -1,4 +1,6 @@
-﻿namespace WechatCleanerPlus
+﻿using System.Windows.Forms;
+
+namespace WechatCleanerPlus
 {
     partial class LoadingForm
     {
@@ -42,6 +44,7 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "正在加载中...";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             // 
             // button1
             // 
@@ -52,6 +55,7 @@
             this.button1.Text = "取消";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             // 
             // LoadingForm
             // 
@@ -61,7 +65,6 @@
             this.ControlBox = false;
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "LoadingForm";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
