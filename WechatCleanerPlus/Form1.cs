@@ -336,6 +336,57 @@ namespace WechatCleanerPlus
             }
         }
 
+        private void listView2_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (listView2.SelectedItems.Count == 1)
+            {
+                ListViewItem item = listView2.SelectedItems[0];
+                DatImage datImage = item.Tag as DatImage;
+
+                // 解密图像并获取文件路径
+                Image decryptedImage;
+                string tmp;
+                (decryptedImage, tmp) = ImageProcessor.DecryptImage(datImage.FilePath);
+
+                if (decryptedImage != null)
+                {
+                    string tempFilePath = Path.Combine(Path.GetTempPath(), item.Text);
+                    ImageFormat format = GetImageFormat(datImage.FileType);
+
+                    using (Bitmap originalBitmap = new Bitmap(decryptedImage))
+                    {
+                        originalBitmap.Save(tempFilePath, format);
+                    }
+
+                    // 使用系统默认图片查看器打开图像
+                    var process = new Process
+                    {
+                        StartInfo = new ProcessStartInfo(tempFilePath) { UseShellExecute = true },
+                        EnableRaisingEvents = true
+                    };
+
+                    // 注册进程退出事件
+                    process.Exited += (s, ev) =>
+                    {
+                        try
+                        {
+                            File.Delete(tempFilePath);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine("Failed to delete temp file: " + ex.Message);
+                        }
+                        finally
+                        {
+                            process.Dispose();
+                        }
+                    };
+
+                    process.Start();
+                }
+            }
+        }
+
         private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
         {
 
@@ -417,7 +468,8 @@ namespace WechatCleanerPlus
         {
             // 显示帮助信息
             MessageBox.Show(@"请打开您的微信个人文件夹下的目录。
-例如，您的个人文件夹为wxid_12345678，请选择C:\Users\YOURNAME\Documents\WeChat Files\wxid_12345678目录打开。",
+例如，您的个人文件夹为wxid_12345678，请选择C:\Users\YOURNAME\Documents\WeChat Files\wxid_12345678目录打开。
+双击文件夹即可加载所有图片，双击图片即可打开原图。",
                 "帮助信息");
         }
 
