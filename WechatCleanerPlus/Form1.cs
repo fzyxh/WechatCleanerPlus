@@ -141,6 +141,13 @@ namespace WechatCleanerPlus
 
         private void 打开文件夹ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string defaultPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "WeChat Files");
+
+            if (Directory.Exists(defaultPath))
+            {
+                folderBrowserDialog1.SelectedPath = defaultPath;
+            }
+
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 currentPath = folderBrowserDialog1.SelectedPath;
