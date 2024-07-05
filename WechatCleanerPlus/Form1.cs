@@ -7,6 +7,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -406,6 +408,13 @@ namespace WechatCleanerPlus
                 foreach (ListViewItem item in listView2.SelectedItems)
                 {
                     DatImage datImage = item.Tag as DatImage;
+
+                    FileAttributes attributes = File.GetAttributes(datImage.FilePath);
+                    if ((attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+                    {
+                        File.SetAttributes(datImage.FilePath, attributes & ~FileAttributes.ReadOnly);
+                    }
+
                     File.Delete(datImage.FilePath); // 删除文件
                     listView2.Items.Remove(item); // 从ListView中移除
                 }
@@ -453,10 +462,51 @@ namespace WechatCleanerPlus
                     string subFolderPath = item.SubItems[1].Text; // 获取次级目录路径
                     string fullFolderPath = Path.Combine(msgAttachPath, subFolderPath); // 构建完整路径
 
-                    Directory.Delete(fullFolderPath, true); // 递归删除文件夹
-                    listView1.Items.Remove(item);
+                    try
+                    {
+                        // Check if directory exists before attempting to delete
+                        if (Directory.Exists(fullFolderPath))
+                        {
+                            DeleteDirectoryRecursively(fullFolderPath);
+                            listView1.Items.Remove(item);
+                        }
+                        else
+                        {
+                            MessageBox.Show("目录未找到: " + fullFolderPath, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    catch (UnauthorizedAccessException ex)
+                    {
+                        MessageBox.Show("访问目录路径被拒绝: " + ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("发生错误: " + ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
+        }
+
+        void DeleteDirectoryRecursively(string targetDir)
+        {
+            // Recursively modify attributes and delete all files and subdirectories
+            foreach (string file in Directory.GetFiles(targetDir))
+            {
+                FileInfo fileInfo = new FileInfo(file);
+                if (fileInfo.IsReadOnly)
+                {
+                    fileInfo.IsReadOnly = false; // Remove read-only attribute
+                }
+                File.Delete(file);
+            }
+
+            foreach (string subDir in Directory.GetDirectories(targetDir))
+            {
+                DeleteDirectoryRecursively(subDir);
+            }
+
+            // Finally, delete the directory itself
+            Directory.Delete(targetDir, true);
         }
 
         private void 关闭ToolStripMenuItem_Click(object sender, EventArgs e)
